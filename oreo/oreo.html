@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Oreo</title>
+	<style type="text/css">
+	*{margin: 0;padding: 0;}
+	html{height: 100%;}
+	body{display: flex;justify-content: center;flex-direction: column;background:#ccc url(./img/ore.jpg) repeat-y;min-height: 100%;background-size:cover; }
+	.wrapper{width: 500px; border-radius:3px;background: #fff;margin: 0 auto;font-family: arial,sans-serif;padding: 50px;}
+	.headtxt{    font-size: 30px; text-align: center;color: #514b4b;}
+	.headtxt2{font-size: 18px;text-align: center;line-height:40px;color: #514b4b;margin-bottom: 30px;}
+	.block{ margin-bottom: 25px;   }
+	label{ font-size: 22px;font-weight: bold;width: 60%;line-height: 30px;position: relative;display: block;overflow: hidden;float: left; }
+	select,input{ height: 30px;
+		width: 180px;font-weight: bold;padding: 0 5px;  }
+		/*.ca,.temp{display: none;}*/
+		#bt1 {
+			background: linear-gradient(to bottom, rgb(25, 59, 196) 0%, rgb(90, 116, 226) 100%);
+			margin: 0 auto;
+			padding: 10px 20px 10px 20px;
+			border-radius: 5px;
+			border: 1px solid #c4c4c4;
+			box-shadow: 0px 6px 0px 0px rgb(34, 70, 127), 0px 5px 12px 0px rgba(0, 0, 0, 0.6), inset 0px 0px 10px -5px rgba(0, 0, 0, 1);
+			transition: all 100ms linear;
+			touch-callout: none;
+			user-select: none;
+			cursor: pointer;
+			display: block;
+			position: relative;
+			font-family: arial, sans-serif;
+			font-size: 15px;
+			color: #fff;
+			text-align: center;
+			text-transform: uppercase;
+		}
+
+		#bt1 > span {
+			display: block;
+			-webkit-transform: skew(5deg, 0deg);
+		}
+
+		#bt1:active {
+			top: 4px;
+			box-shadow: 0px 2px 0px 0px rgb(116, 128, 108), 0px 5px 5px 0px rgba(0, 0, 0, 0.6), inset 0px 0px 10px -5px rgba(0, 0, 0, 1);
+		}
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		<h1 class="headtxt">Welcome to Oreo!..</h1>
+		<h2 class="headtxt2">Create your Staging Link Here!!</h2>
+		<form>
+			<div class="block">
+				<label>Select Your Partner:</label>
+				<select id="sel" class="sel"  onChange="myNewFunction(this.selectedIndex);">
+					<option>SELECT PARTNER</option>
+					<option value="1">Man-U</option>
+					<option value="2">SF-Giants</option>
+					<option value="3">KC-Royals</option>
+					<option value="4">Florida</option>
+				</select>
+			</div>
+			<div class="block">
+				<label>Select Your template type:</label>
+				<select id="sel2" class="sel2"  onChange="getType(this.selectedIndex);">
+					<option>SELECT TYPE</option>
+					<option value="1">Lander</option>
+					<option value="2">SuccessPage</option>
+					<option value="3">SecondaryOverlay</option>
+					<option value="4">HostedThemes</option>
+				</select>
+			</div>
+			<div class="block ca">
+				<label>Insert Your Category Name:</label>
+				<input id="category" type="text" name="category" placeholder="Category Name">
+			</div>
+			<div class="block temp">
+				<label>Insert Your Template Name:</label>
+				<input id="tempname" type="text" name="templatename" placeholder="Template Name">
+			</div>
+			<imput type="button" id="bt1" value="Generate the link" />
+
+		</form>
+	</div>
+	<script type="text/javascript">
+
+		var bt1 = document.getElementById("bt1");
+		var sel = document.getElementById("sel"),
+		va,partner,type,url;
+
+
+		function myNewFunction(val){
+			va = val;
+			console.log(va);  
+			if(!!va){
+				switch(va)
+			{
+				case 1:
+				partner = 'manu' ;
+				break;
+
+				case 2:
+				partner = 'sf_giants' ;
+				break;
+				 
+				case 3:
+				partner = 'kc_royals' ;
+				break;
+				 
+				case 4:
+				partner = 'florida' ;
+				break;
+
+				case 0:
+				return false ;
+				break; 
+			}	 
+			}
+		} 
+
+		function getType(type)
+		{
+			console.log(type);
+			switch(type)
+			{
+				case 1:
+				type = "lander";
+				break;
+				case 2:
+				type = "SuccessPage";
+				break;
+				case 3:
+				type = "SecondaryOverlay";
+				break;
+				case 4:
+				type = "HostedThemes";
+				break;
+				case 0:
+				return false ;
+				break;
+
+			}
+		}
+ 
+		function validate(type, partnerName)
+		{	 
+
+			var categoryName = document.getElementById('category').value ,		
+			tempName = document.getElementById('tempname').value ,
+			data_type={
+				domain:{
+					manu:"http://stagiawdng.converts.co/",
+					sf_giants:"http://staging.check-maps.co/",
+					kc_royals:"http://stagawdawding.converts.co/",
+					florida:"http://stagaaing.converts.co/"
+				},
+				lander:{
+					basepath: ".html?basepath=content%2F",
+					parentext:"&parentext=superextension.info"
+				},
+				SecondaryOverlay:"overlay/",
+				SuccessPage:"success/",
+				HostedThemes:"homepage.html?basepath=superextension.info%2Fhomepage%2F"+tempName+"&parentext=superextension.info"
+			}
+			;
+			// data_url= [
+			// "http://stagiawdng.converts.co/"+tempName+".html?basepath=content%2F"+categoryName+"&parentext=superextension.info",
+			// "http://staging.check-maps.co/"+tempName+".html?basepath=content%2F"+categoryName+"&parentext=superextension.info",
+			// "http://stagawdawding.converts.co/"+tempName+".html?basepath=content%2F"+categoryName+"&parentext=superextension.info",
+			// "http://stagaaing.converts.co/"+tempName+".html?basepath=content%2F"+categoryName+"&parentext=superextension.info" 
+			// ];
+
+			if( !!categoryName  || !!tempName ){  
+				if (type === 'lander' ) {
+					if(partnerName=== 'manu')
+					url = data_type.domain.manu+tempName+data_type.lander.basepath+categoryName+data_type.lander.parentext;
+				 console.log(url);
+				} 
+			}
+
+			// if(!!categoryName || !!tempname || categoryName=="" || tempname==""){
+			// 	console.log(data_url[va]);	
+			// }
+		 
+		}
+
+
+
+
+	</script>
+</body>
+</html>
