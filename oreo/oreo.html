@@ -32,16 +32,20 @@
 			color: #fff;
 			text-align: center;
 			text-transform: uppercase;
-			    width: 50%;
-    height: 45px;
-    outline: none;
+			width: 50%;
+			height: 45px;
+			outline: none;
 		}
 
 		.bt1:active {
 			top: 4px;
 			box-shadow: 0px 2px 0px 0px rgb(116, 128, 108), 0px 5px 5px 0px rgba(0, 0, 0, 0.6), inset 0px 0px 10px -5px rgba(0, 0, 0, 1);
 		}
-		   .temp,.ca,.tempN {display: none;}
+		.temp,.ca,.tempN {display: none;}
+		.loadingoption{position: absolute;top: 0; left: 0; width: 100% ;height: 100%;display: flex;align-items: center; justify-content: center; text-align: center;font-family: arial , sans-serif;visibility: hidden; }
+		.textloading{font-size: 25px; color: #fff;line-height: 30px;}
+		.textloading span{ display: block;margin-top: 25px;}
+		.load{font-size: 40px;}
 	</style>
 </head>
 <body>
@@ -83,19 +87,56 @@
 			</div>
 			<div class="block tempN">
 				<label>Insert Your Template Name:</label>
-				<input id="tempname" type="text" name="templatename" placeholder="Template Name">
+				<input id="tempname" type="text" name="templatename" placeholder="Template Name without '.html'">
 			</div>
 			<input type="button" id="bt1" class="bt1" value="Generate the link" />
 
-		</form>
+		</form> 
+	</div>
+	<div class="loadingoption">
+		<p class="textloading"><span class="load">Loading....</span><span>Please wait and don't PRESS ESC OR CLOSE THE WINDOW</span></p>
 	</div>
 	<script type="text/javascript">
 		var el = {
 			bt1 : document.querySelector(".bt1"),
-			tempname : document.querySelector("#tempname"),
 			dataArr : [document.querySelector(".prt"),document.querySelector(".temp"),document.querySelector(".ca"),document.querySelector(".tempN")] 
 		},
-		va,partner,templateType,url,urlType;
+		va,
+		partner,
+		templateType,
+		url,
+		urlType,
+		categoryName = '' ,		
+		tempName = '' ,
+		_v,
+		data_type ={
+			liveDomain :{
+				manu:"http://www.check-maps.org/",
+				sf_giants:"http://www.finddirections.co/",
+				kc_royals:"http://www.easyemailchecker.net/",
+				florida:"http://www.mapsfinder.co/",
+				mumbai: "www.liveemail.co",
+				zurich_lions:"www.blackfridaystores.co",
+				delhiDaredevils:"www.easyemailchecker.net",
+				pacificFlyers:"www.liveemail.co "
+			},
+			stagingDomain:{
+				manu:"http://staging.check-maps.org/",
+				sf_giants:"http://staging.convertmypdf.co/",
+				kc_royals:"http://staging.convertthepdf.co/",
+				florida:"http://staging.map-buddy.net/",
+				mumbai :"http://staging.localweathertoday.co/"
+			},
+			lander:{
+				basepath: ".html?basepath=content%2F",
+				parentext:"&parentext=superextension.info"
+			},
+			secondaryOverlay:"overlay/",
+			successPage:"success/",
+			hostedThemes:"homepage.html?basepath=superextension.info%2Fhomepage%2F"+tempName+"&parentext=superextension.info",
+			html: '.html'
+		},
+		temp;
 
 		function getUrlType(val){ 
 			if(!!val){  
@@ -108,7 +149,7 @@
 					break;  
 				} 
 			} 
-		}
+		} 
 		function getpartnerType(val){
 			va = val;
 			if(!!va){
@@ -163,159 +204,152 @@
 				break; 
 			}
 		} 
-		 
-		el.bt1.addEventListener('click' ,function(){
-			validate(templateType ,partner ,urlType);
+
+		el.bt1.addEventListener('click' ,function(){ 
+			try{
+				categoryName = document.getElementById('category').value ;		
+				tempName = document.querySelector('#tempname').value ;
+				if(tempName){
+					_v = validate(templateType ,partner ,urlType); 
+				} 
+				if(!!_v){
+					document.querySelector('.loadingoption').style.visibility= 'visible';
+					document.querySelector('.wrapper').style.display= 'none';	
+				}
+			}catch(e){
+				console.log(e);
+			}
 		});
+		
 
 		function validate(type, partnerName, urlType){	 
-
-			var categoryName = document.getElementById('category').value ,		
-			tempName = document.getElementById('tempname').value ,
-			data_type={
-				liveDomain :{
-					manu:"http://www.check-maps.org/",
-					sf_giants:"http://www.finddirections.co/",
-					kc_royals:"http://www.easyemailchecker.net/",
-					florida:"http://www.mapsfinder.co/"
-				},
-				stagingDomain:{
-					manu:"http://staging.check-maps.org/",
-					sf_giants:"http://staging.convertmypdf.co/",
-					kc_royals:"http://staging.convertthepdf.co/",
-					florida:"http://staging.map-buddy.net/"
-				},
-				lander:{
-					basepath: ".html?basepath=content%2F",
-					parentext:"&parentext=superextension.info"
-				},
-				secondaryOverlay:"overlay/",
-				successPage:"success/",
-				hostedThemes:"homepage.html?basepath=superextension.info%2Fhomepage%2F"+tempName+"&parentext=superextension.info",
-				html: '.html'
-			};
-
-			if( !!categoryName  || !!tempName ){  
+			if(type && partnerName && urlType){ 
 				if (type === 'lander' ) {
 					if(urlType === 'staging'){
 						switch(partnerName){
 							case 'manu':
-							url = data_type.stagingDomain.manu+tempName+data_type.lander.basepath+categoryName+data_type.lander.parentext;
+							temp = data_type.liveDomain.manu; 
 							break;
 							case 'sf_giants':
-							url = data_type.stagingDomain.sf_giants+tempName+data_type.lander.basepath+categoryName+data_type.lander.parentext;
+							temp = data_type.stagingDomain.sf_giants;
 							break;
 							case 'kc_royals':
-							url = data_type.stagingDomain.kc_royals+tempName+data_type.lander.basepath+categoryName+data_type.lander.parentext;
+							temp = data_type.stagingDomain.kc_royals ;
 							break;
 							case 'florida':
-							url = data_type.stagingDomain.florida+tempName+data_type.lander.basepath+categoryName+data_type.lander.parentext;
+							temp = data_type.stagingDomain.florida ;
 							break; 
 						}
+						url =  temp+tempName+data_type.lander.basepath+categoryName+data_type.lander.parentext;
 					}else if(urlType === 'live'){
 						switch(partnerName){
 							case 'manu':
-							url = data_type.liveDomain.manu+tempName+data_type.lander.basepath+categoryName+data_type.lander.parentext;
+							temp = data_type.liveDomain.manu;
 							break;
 							case 'sf_giants':
-							url = data_type.liveDomain.sf_giants+tempName+data_type.lander.basepath+categoryName+data_type.lander.parentext;
+							temp = data_type.liveDomain.sf_giants;
 							break;
 							case 'kc_royals':
-							url = data_type.liveDomain.kc_royals+tempName+data_type.lander.basepath+categoryName+data_type.lander.parentext;
+							temp = data_type.liveDomain.kc_royals;
 							break;
 							case 'florida':
-							url = data_type.liveDomain.florida+tempName+data_type.lander.basepath+categoryName+data_type.lander.parentext;
+							temp = data_type.liveDomain.florida;
 							break; 
 						}
+						url =  temp+tempName+data_type.lander.basepath+categoryName+data_type.lander.parentext;
 					} 	 
 				}
 				if(type === 'SuccessPage'){
 					if(urlType==='staging'){
 						switch(partnerName){
 							case 'manu':
-							url = data_type.stagingDomain.manu+data_type.successPage+tempName+data_type.html;
+							temp = data_type.stagingDomain.manu;
 							break;
 							case 'sf_giants':
-							url = data_type.stagingDomain.sf_giants+data_type.successPage+tempName+data_type.html;
+							temp = data_type.stagingDomain.sf_giants;
 							break;
 							case 'kc_royals':
-							url = data_type.stagingDomain.kc_royals+data_type.successPage+tempName+data_type.html;
+							temp = data_type.stagingDomain.kc_royals;
 							break;
 							case 'florida':
-							url = data_type.stagingDomain.florida+data_type.successPage+tempName+data_type.html;
+							temp = data_type.stagingDomain.florida;
 							break; 
 						}
+						url =  temp+data_type.successPage+tempName+data_type.html;
 					}else if(urlType==='live'){
 						switch(partnerName){
 							case 'manu':
-							url = data_type.liveDomain.manu+data_type.successPage+tempName+data_type.html;
+							temp = data_type.liveDomain.manu;
 							break;
 							case 'sf_giants':
-							url = data_type.liveDomain.sf_giants+data_type.successPage+tempName+data_type.html;
+							temp = data_type.liveDomain.sf_giants;
 							break;
 							case 'kc_royals':
-							url = data_type.liveDomain.kc_royals+data_type.successPage+tempName+data_type.html;
+							temp = data_type.liveDomain.kc_royals;
 							break;
 							case 'florida':
-							url = data_type.liveDomain.florida+data_type.successPage+tempName+data_type.html;
+							temp = data_type.liveDomain.florida;
 							break; 
 						}
+						url =  temp+data_type.successPage+tempName+data_type.html;
 					}
 				}
 				if(type === 'SecondaryOverlay'){
-					if(urlType==='staging'){
+					if(urlType ==='staging'){
 						switch(partnerName){
 							case 'manu':
-							url = data_type.stagingDomain.manu+data_type.secondaryOverlay+tempName+data_type.html;
+							temp = data_type.stagingDomain.manu;
 							break;
 							case 'sf_giants':
-							url = data_type.stagingDomain.sf_giants+data_type.secondaryOverlay+tempName+data_type.html;
+							temp = data_type.stagingDomain.sf_giants;
 							break;
 							case 'kc_royals':
-							url = data_type.stagingDomain.kc_royals+data_type.secondaryOverlay+tempName+data_type.html;
+							temp = data_type.stagingDomain.kc_royals;
 							break;
 							case 'florida':
-							url = data_type.stagingDomain.florida+data_type.secondaryOverlay+tempName+data_type.html;
+							temp = data_type.stagingDomain.florida;
 							break; 
 						}
-					}else if(urlType==='live'){
+						url = temp+data_type.secondaryOverlay+tempName+data_type.html;
+					}else if(urlType ==='live'){
 						switch(partnerName){
 							case 'manu':
-							url = data_type.liveDomain.manu+data_type.secondaryOverlay+tempName+data_type.html;
+							temp = data_type.liveDomain.manu;
 							break;
 							case 'sf_giants':
-							url = data_type.liveDomain.sf_giants+data_type.secondaryOverlay+tempName+data_type.html;
+							temp = data_type.liveDomain.sf_giants;
 							break;
 							case 'kc_royals':
-							url = data_type.liveDomain.kc_royals+data_type.secondaryOverlay+tempName+data_type.html;
+							temp = data_type.liveDomain.kc_royals;
 							break;
 							case 'florida':
-							url = data_type.liveDomain.florida+data_type.secondaryOverlay+tempName+data_type.html;
+							temp = data_type.liveDomain.florida;
 							break; 
 						}
+						url = temp+data_type.secondaryOverlay+tempName+data_type.html; 
 					}
 				}
 				if(type === 'HostedThemes'){
-					urlType = 'staging';
-					if(!!urlType){
-						switch(partnerName){
-							case 'manu':
-							url = data_type.stagingDomain.manu+data_type.hostedThemes;
-							break;
-							case 'sf_giants':
-							url = data_type.stagingDomain.sf_giants+data_type.hostedThemes;
-							break;
-							case 'kc_royals':
-							url = data_type.stagingDomain.kc_royals+data_type.hostedThemes;
-							break;
-							case 'florida':
-							url = data_type.stagingDomain.florida+data_type.hostedThemes;
-							break; 
-						}
-					} 
-				}
-			}  
-			window.open(url,'_self');
+					urlType = 'staging'; 
+					switch(partnerName){
+						case 'manu':
+						temp = data_type.stagingDomain.manu;
+						break;
+						case 'sf_giants':
+						temp = data_type.stagingDomain.sf_giants;
+						break;
+						case 'kc_royals':
+						temp = data_type.stagingDomain.kc_royals;
+						break;
+						case 'florida':
+						temp = data_type.stagingDomain.florida;
+						break; 
+					}
+					url = temp+data_type.hostedThemes;
+				} 
+				window.open(url,'_self'); 
+				return true; 
+			}else{return false;}
 		} 
 	</script>
 </body>
