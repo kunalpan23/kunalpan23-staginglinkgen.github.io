@@ -240,7 +240,6 @@
 							temp = data_type.stagingDomain.florida ;
 							break; 
 						}
-						url =  temp+tempName+data_type.lander.basepath+categoryName+data_type.lander.parentext;
 					}else if(urlType === 'live'){
 						switch(partnerName){
 							case 'manu':
@@ -256,8 +255,8 @@
 							temp = data_type.liveDomain.florida;
 							break; 
 						}
-						url =  temp+tempName+data_type.lander.basepath+categoryName+data_type.lander.parentext;
-					} 	 
+					} 
+					url =  temp+tempName+data_type.lander.basepath+categoryName+data_type.lander.parentext; 	 
 				}
 				if(type === 'SuccessPage'){
 					if(urlType==='staging'){
@@ -274,8 +273,7 @@
 							case 'florida':
 							temp = data_type.stagingDomain.florida;
 							break; 
-						}
-						url =  temp+data_type.successPage+tempName+data_type.html;
+						} 
 					}else if(urlType==='live'){
 						switch(partnerName){
 							case 'manu':
@@ -291,8 +289,8 @@
 							temp = data_type.liveDomain.florida;
 							break; 
 						}
-						url =  temp+data_type.successPage+tempName+data_type.html;
 					}
+					url =  temp+data_type.successPage+tempName+data_type.html;
 				}
 				if(type === 'SecondaryOverlay'){
 					if(urlType ==='staging'){
@@ -310,7 +308,6 @@
 							temp = data_type.stagingDomain.florida;
 							break; 
 						}
-						url = temp+data_type.secondaryOverlay+tempName+data_type.html;
 					}else if(urlType ==='live'){
 						switch(partnerName){
 							case 'manu':
@@ -326,8 +323,8 @@
 							temp = data_type.liveDomain.florida;
 							break; 
 						}
-						url = temp+data_type.secondaryOverlay+tempName+data_type.html; 
 					}
+					url = temp+data_type.secondaryOverlay+tempName+data_type.html;  
 				}
 				if(type === 'HostedThemes'){
 					urlType = 'staging'; 
@@ -348,6 +345,7 @@
 					url = temp+data_type.hostedThemes;
 				} 
 				window.open(url,'_self'); 
+				// console.log(url,'_self'); 
 				return true; 
 			}else{return false;}
 		} 
