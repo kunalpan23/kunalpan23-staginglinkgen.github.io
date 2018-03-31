@@ -207,14 +207,15 @@
 
 		el.bt1.addEventListener('click' ,function(){ 
 			try{
-				categoryName = document.getElementById('category').value ;		
-				tempName = document.querySelector('#tempname').value ;
+				categoryName = document.getElementById('category').value.replace(/\s/g, '') ;		
+				tempName = document.querySelector('#tempname').value.replace(/\s/g, '') ;
 				if(tempName){
 					_v = validate(templateType ,partner ,urlType); 
 				} 
 				if(!!_v){
 					document.querySelector('.loadingoption').style.visibility= 'visible';
 					document.querySelector('.wrapper').style.display= 'none';	
+					window.open(_v,'_self'); 
 				}
 			}catch(e){
 				console.log(e);
@@ -343,10 +344,8 @@
 						break; 
 					}
 					url = temp+data_type.hostedThemes;
-				} 
-				window.open(url,'_self'); 
-				// console.log(url,'_self'); 
-				return true; 
+				}  
+				return url; 
 			}else{return false;}
 		} 
 	</script>
